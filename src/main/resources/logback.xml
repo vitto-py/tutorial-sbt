@@ -1,0 +1,31 @@
+<configuration>
+
+    <!-- Define a console appender named STDOUT that writes logs to the terminal -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+
+        <!-- Set how log messages will appear in the console -->
+        <encoder>
+            <!--
+                Log pattern format:
+                %d{HH:mm:ss.SSS}  -> timestamp in hour:minute:second.millis
+                [%thread]         -> thread name in square brackets
+                %-5level          -> log level (INFO, DEBUG), left-aligned to 5 characters
+                %logger{36}       -> logger name, truncated to 36 characters
+                -                 -> literal separator
+                %msg              -> the actual log message
+                %n                -> newline
+            -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Reduce Kafka library log verbosity to WARN to avoid overwhelming output -->
+    <logger name="org.apache.kafka" level="WARN" />
+
+    <!-- Root logger: applies to everything unless overridden above -->
+    <root level="INFO">
+        <!-- Use the STDOUT appender for output -->
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>

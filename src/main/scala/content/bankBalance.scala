@@ -1,5 +1,6 @@
 package content
 
+import org.slf4j.LoggerFactory
 import java.util.Properties
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
 import org.apache.kafka.streams.{KafkaStreams, StreamsConfig}
@@ -17,7 +18,9 @@ Read your topics
 kafka-console-consumer --topic banking-records --bootstrap-server localhost:9092 --from-beginning
 */
 object bankBalance {
+    private val logger = LoggerFactory.getLogger("bankBalance")
     def main(args: Array[String]): Unit = {
+        logger.info("Kafka producer starting...")
         //props
         val props: Properties = {
             val p = new Properties()
@@ -36,17 +39,20 @@ object bankBalance {
                 case _ => "Anonymous"
             }
             val prodRecord: ProducerRecord[String, String] = newRandomRecord(result)
+            logger.debug(s"Sending record: $prodRecord")
             producer.send(prodRecord)
         }
 
         producer.close()
+        logger.info("Kafka producer finished.")
     }
 
 
     def newRandomRecord(name: String): ProducerRecord[String, String] = {
+        val rand = new scala.util.Random
         val bparams = Map(
             "name"-> name,
-            "amount"-> 1.3,
+            "amount"-> rand.nextFloat()*100,
             "timestamp" -> LocalDateTime.now(ZoneOffset.UTC)
         )
         new ProducerRecord[String,String]("banking-records", name, bparams.toString())

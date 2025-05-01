@@ -14,9 +14,15 @@ lazy val root = (project in file("."))
           "io.circe" %% "circe-parser" % "0.14.1",
           // https://mvnrepository.com/artifact/com.lihaoyi/upickle
           "com.lihaoyi" %% "upickle" % "4.1.0",
+          // SLF4J API
           // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
           "org.slf4j" % "slf4j-api" % "2.0.17",
+          // Logback implementation
+          "ch.qos.logback" % "logback-classic" % "1.5.18",
+          // SIMPLE
+          /*slf4j-simple is a different backend from logback, and it takes precedence if both are present.
+          It ignores your logback.xml completely.*/
           // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-          "org.slf4j" % "slf4j-simple" % "2.0.17"
+          //"org.slf4j" % "slf4j-simple" % "2.0.17"
       )
   )
