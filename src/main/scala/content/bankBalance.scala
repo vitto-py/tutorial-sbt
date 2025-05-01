@@ -5,7 +5,17 @@ import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, Produce
 import org.apache.kafka.streams.{KafkaStreams, StreamsConfig}
 import org.apache.kafka.common.serialization.StringSerializer
 import java.time.{LocalDateTime, ZoneOffset}
+/*
+Start Kafka
+zookeeper-server-start ~/confluent-7.5.3/etc/kafka/zookeeper.properties
+kafka-server-start ~/confluent-7.5.3/etc/kafka/server.properties
 
+See your topics
+kafka-topics --list --bootstrap-server localhost:9092
+
+Read your topics
+kafka-console-consumer --topic banking-records --bootstrap-server localhost:9092 --from-beginning
+*/
 object bankBalance {
     def main(args: Array[String]): Unit = {
         //props
