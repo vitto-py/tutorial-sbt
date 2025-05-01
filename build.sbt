@@ -11,6 +11,12 @@ lazy val root = (project in file("."))
           "org.apache.kafka" %% "kafka-streams-scala" % "2.8.0",
           "io.circe" %% "circe-core" % "0.14.1",
           "io.circe" %% "circe-generic" % "0.14.1",
-          "io.circe" %% "circe-parser" % "0.14.1"
+          "io.circe" %% "circe-parser" % "0.14.1",
+          // https://mvnrepository.com/artifact/com.lihaoyi/upickle
+          "com.lihaoyi" %% "upickle" % "4.1.0",
+          // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+          "org.slf4j" % "slf4j-api" % "2.0.17",
+          // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+          "org.slf4j" % "slf4j-simple" % "2.0.17"
       )
   )

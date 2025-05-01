@@ -1,5 +1,5 @@
 package content
-
+/*
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.auto._
 import io.circe.parser._
@@ -68,3 +68,5 @@ object userAndColour {
     // output this KTABLE
     ktWordCounting.to(topicWordCount)
 }
+
+*/

@@ -1,6 +1,8 @@
+//package content
 
-object Main {
+
+object bankBalance {
   def main(args: Array[String]): Unit = {
-    println("Hello world!")
+   println("cool")
   }
 }
