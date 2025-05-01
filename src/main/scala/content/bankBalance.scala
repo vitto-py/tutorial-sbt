@@ -6,6 +6,11 @@ import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, Produce
 import org.apache.kafka.streams.{KafkaStreams, StreamsConfig}
 import org.apache.kafka.common.serialization.StringSerializer
 import java.time.{LocalDateTime, ZoneOffset}
+
+// now using JSON
+import io.circe.syntax._
+import io.circe.generic.auto._
+
 /*
 Start Kafka
 zookeeper-server-start ~/confluent-7.5.3/etc/kafka/zookeeper.properties
@@ -19,6 +24,8 @@ kafka-console-consumer --topic banking-records --bootstrap-server localhost:9092
 */
 object bankBalance {
     private val logger = LoggerFactory.getLogger("bankBalance")
+    // case classes are serializable
+    case class BankRecord(user: String, balance: Double, timestamp: LocalDateTime)
     def main(args: Array[String]): Unit = {
         logger.info("Kafka producer starting...")
         //props
@@ -27,6 +34,8 @@ object bankBalance {
             p.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
             p.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getName)
             p.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getName)
+            // ensure dont push duplicates
+            p.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true")
             p
         }
 
@@ -46,16 +55,23 @@ object bankBalance {
         producer.close()
         logger.info("Kafka producer finished.")
     }
-
-
-    def newRandomRecord(name: String): ProducerRecord[String, String] = {
+    // SINGLETON
+    object sharedRandom {
         val rand = new scala.util.Random
-        val bparams = Map(
+        def getFloat: Float = {
+            rand.nextFloat() * 100 - 10
+        }
+    }
+    def newRandomRecord(name: String): ProducerRecord[String, String] = {
+        //val rand = new scala.util.Random
+        //val randomNumber = rand.nextFloat()*100 - 10
+        val caseRecord = BankRecord(name, sharedRandom.getFloat, LocalDateTime.now(ZoneOffset.UTC))
+        /*val bparams = Map(
             "name"-> name,
             "amount"-> rand.nextFloat()*100,
             "timestamp" -> LocalDateTime.now(ZoneOffset.UTC)
-        )
-        new ProducerRecord[String,String]("banking-records", name, bparams.toString())
+        )*/
+        new ProducerRecord[String,String]("banking-records", name, caseRecord.asJson.noSpaces)//bparams.toString())
     }
 
 }

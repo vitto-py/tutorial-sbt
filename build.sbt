@@ -24,5 +24,8 @@ lazy val root = (project in file("."))
           It ignores your logback.xml completely.*/
           // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
           //"org.slf4j" % "slf4j-simple" % "2.0.17"
+          // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+          "org.junit.jupiter" % "junit-jupiter-api" % "5.12.2" % Test,
+          "org.junit.jupiter" % "junit-jupiter-engine" % "5.12.2" % Test
       )
   )
