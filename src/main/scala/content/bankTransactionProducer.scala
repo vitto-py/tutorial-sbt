@@ -22,7 +22,7 @@ kafka-topics --list --bootstrap-server localhost:9092
 Read your topics
 kafka-console-consumer --topic banking-records --bootstrap-server localhost:9092 --from-beginning
 */
-object bankBalance {
+object bankTransactionProducer {
     private val logger = LoggerFactory.getLogger("bankBalance")
     // case classes are serializable
     case class BankRecord(user: String, balance: Double, timestamp: LocalDateTime)
